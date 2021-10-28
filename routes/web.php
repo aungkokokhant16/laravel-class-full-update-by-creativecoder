@@ -15,7 +15,10 @@ use App\Models\Blog;
 */
 
 Route::get('/', function () {
-    return view('Blogs');
+
+    return view('blogs', [
+        'blogs' => Blog::all()
+    ]);
 });
 
 // Route::get('/blog',function(){
@@ -28,7 +31,7 @@ Route::get('/', function () {
 Route::get('/blogs/{blog}', function ($slug) {
 
 
-    return view('Blog',[
-        'blog' => Blog::find($slug)
+    return view('blog', [
+        'blog' => blog::find($slug)
     ]);
-})->where('blog','[A-z\d\-_]+');
+})->where('blog', '[A-z\d\-_]+');

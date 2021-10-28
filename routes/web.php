@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Blog;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,17 +27,8 @@ Route::get('/', function () {
 
 Route::get('/blogs/{blog}', function ($slug) {
 
-    $path = __DIR__."/../resources/blogs/$slug.html";
-    if(!file_exists($path)){
-        return redirect('/');
-    }
-    $blog = cache()->remember("posts.$slug",now()->addMinute(),function() use ($path){
-        var_dump('file_get-contents');
-        return file_get_contents($path);
-    });
-
 
     return view('Blog',[
-        'blog' => $blog
+        'blog' => Blog::find($slug)
     ]);
 })->where('blog','[A-z\d\-_]+');

@@ -25,12 +25,16 @@ Route::get('/', function () {
 // });
 
 Route::get('/blogs/{blog}', function ($slug) {
-    dd($slug);
+
     $path = __DIR__."/../resources/blogs/$slug.html";
     if(!file_exists($path)){
         return redirect('/');
     }
-    $blog = file_get_contents($path);
+    $blog = cache()->remember("posts.$slug",now()->addMinute(),function() use ($path){
+        var_dump('file_get-contents');
+        return file_get_contents($path);
+    });
+
 
     return view('Blog',[
         'blog' => $blog
